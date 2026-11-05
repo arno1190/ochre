@@ -1,6 +1,6 @@
 # 11 — Roadmap (the build agent's checklist)
 
-Milestones are built **in order**. A milestone is done when every acceptance criterion passes in CI and `progress.txt` records it. Each criterion is a test, or a scripted check, that the agent writes **before** the implementation (TDD).
+Milestones are built **in order**: M0–M13 make v1.0, and M14–M20 follow. A milestone is done when every acceptance criterion passes in CI and `progress.txt` records it. Each criterion is a test, or a scripted check, that the agent writes **before** the implementation (TDD).
 
 ## Definition of done (every milestone)
 - `make check` is green: lint, types, unit/service/policy tests, coverage gates (09 §8), web lint, type check and tests.
@@ -131,7 +131,36 @@ Milestones are built **in order**. A milestone is done when every acceptance cri
 - A read-only PAT on MCP cannot call a write tool.
 - The operator skill dry-run: a fresh agent session following only the skill gets a `solo` instance to `/readyz` and creates the first admin in CI (scripted with `claude -p` in a nightly job, optional).
 
-### M12. Hardening and 1.0
+### M12. Agent platform
+**Build**: everything in 13 §1–§8 and §10:
+- action classes declared on every service function;
+- position questions and the answers page;
+- knockout state;
+- agents with tokens and the kill switch;
+- Proposals with the inbox UI;
+- Autopilot rules with dry-run;
+- MCP v2 tools, resources and prompts, plus the OAuth 2.1 authorization server with DCR;
+- webhooks with signing and retries;
+- `agent.morning_triage`;
+- `skills/ochre-recruiter/SKILL.md`;
+- the AI register, candidate notice and per-candidate AI log.
+**Accept**:
+- An agent token can never call a Consequential service directly. A generated test over every service function's action class and every MCP tool checks this.
+- An admin's OAuth connection still has to `propose` a rejection.
+- Disabling an agent makes its next call return 401 within 1 s.
+- An agent's effective permission is lost when its owner is deactivated.
+- A proposal with an ungrounded quote returns 422.
+- Approving a stale proposal without editing it returns 409.
+- An approved proposal writes one Event naming both the agent and the approver.
+- A failed knockout never changes `outcome`, and with `propose_reject_failed_knockout` on, it yields exactly one pending Proposal.
+- `advance_when_qualified` moves the application and the Stage Action sends the invitation.
+- A rule's dry-run files proposals and acts on nothing.
+- MCP: Claude Desktop and MCP Inspector both connect through OAuth with DCR (scripted with the Inspector CLI in CI). `get_scorecards` through MCP stays blind for a blind owner.
+- Webhooks: the signature verifies with the documented algorithm; a delivery is retried on 500; the webhook is disabled after 3 days of failures; with `include_personal_data=false` a payload contains no email, name or answer (scan test).
+- Sensitive answers never appear in any `llm_calls`-captured request.
+- The AI register lists every enabled AI Task and agent.
+
+### M13. Hardening and 1.0
 **Build**: perf tuning to the 09 §8 targets on the seeded 10k/50k dataset; visual snapshots; the security checklist (09 §7) as tests where possible; a docs site (MkDocs Material) built from `docs/` plus operator guides for each profile; demo seed; release workflow (multi-arch, SBOM, cosign); `CHANGELOG.md`; licence headers.
 **Accept**:
 - Every 09 §8 target is met in CI on the reference runner.
@@ -140,6 +169,18 @@ Milestones are built **in order**. A milestone is done when every acceptance cri
 - Tag `v1.0.0`.
 
 ---
+
+## After 1.0: AI features (milestones, built in order once M13 is done)
+
+Each starts by writing its spec section (turning 13 §9's direction into tables, endpoints and acceptance criteria) in the same style as M0–M13, and committing it before any code.
+
+- **M14 Scheduling with free/busy** (13 §9.1)
+- **M15 Transcript to scorecard draft** (13 §9.2)
+- **M16 Job kickoff** (13 §9.3)
+- **M17 Reports and reporting views** (13 §9.5)
+- **M18 Rediscovery with pgvector** (13 §9.4)
+- **M19 Offers and e-signature** (13 §9.6)
+- **M20 Candidate status page, NPS, distribution feeds, Slack/Teams** (13 §9.7–§9.8)
 
 ## v1.x backlog (do not start before 1.0)
 - Calendar adapters: Cal.com and Calendly webhooks, MS Bookings poll (v0's sync logic: match by staff = interviewer and customer = candidate email; follow a linked appointment; reset when a future appointment disappears).

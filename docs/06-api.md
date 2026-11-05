@@ -195,32 +195,29 @@ The careers *pages* (`/careers/...`) are server-rendered HTML (09 §Frontend). T
 - Auth: a bearer SCIM token (`access_tokens.kind='scim'`).
 - Tested against the Entra provisioning validator checklist and Okta's SCIM test suite. The test cases are written as pytest fixtures.
 
+## Agent platform (13)
+
+| Method and path | Who | Notes |
+|---|---|---|
+| GET, PUT `/api/positions/{id}/questions` | R / M | The full ordered list. 409 `questions_locked` once Applications exist |
+| GET, PUT `/api/positions/{id}/autopilot` | R / M | `{rules:[{name, enabled, dry_run, params}]}` |
+| GET `/api/applications/{id}/answers` | R | sensitive answers redacted for blind roles |
+| PUT `/api/applications/{id}/answers` | M | recruiter-entered answers (`via='recruiter'`) |
+| POST `/api/applications/{id}/request-answers` | M | sends the `question_request` template |
+| GET, POST `/api/public/answers/{token}` | token | the candidate answer page (rate-limited) |
+| GET `/api/proposals?status=&position_id=` | M on each | the inbox |
+| POST `/api/proposals` | agent scope `propose` | 422 `evidence_not_found`, 422 `invalid_payload` |
+| POST `/api/proposals/{id}/approve` | M | optional `{payload}` for Edit & approve. 409 `stale` unless the payload is given |
+| POST `/api/proposals/{id}/decline` | M | `{note?}` |
+| POST `/api/proposals/bulk/approve` | M on each | `{ids ≤100}` |
+| GET, POST, PATCH `/api/agents[/{id}]`; POST `/api/agents/{id}/disable`; POST `/api/agents/disable-all` | A (create, edit); the owner may disable their own agent | |
+| POST, DELETE `/api/agents/{id}/tokens[/{tid}]` | A, or the owner | shown once |
+| GET, POST, PATCH, DELETE `/api/webhooks[/{id}]`; POST `/api/webhooks/{id}/test`; GET `/api/webhooks/{id}/deliveries`; POST `/api/webhook-deliveries/{id}/redeliver` | A | |
+| GET `/api/events?cursor=&types=` | agent `read`, PAT | the Event stream (bridge for agents without a public URL) |
+| GET `/api/ai/register`; GET `/careers/ai` (when public) | Any / public | 13 §10 |
+| GET `/api/candidates/{id}/ai-log` | Rc | 13 §10 |
+| OAuth: `/.well-known/oauth-authorization-server`, `/.well-known/oauth-protected-resource`, `/oauth/register`, `/oauth/authorize`, `/oauth/token`, `/oauth/revoke` | public / user | 13 §6 |
+
 ## MCP (`/mcp`)
 
-- Streamable HTTP transport (MCP spec 2025-06-18 or later), with bearer PAT auth. A read-only PAT exposes only the read tools.
-- Every tool calls the same service functions as the REST API, so permissions and Events are identical. `via` = `mcp:<prefix>`.
-
-This table is the **only** list of MCP tools. 03 §5 points here.
-
-| Tool | Kind | Permission |
-|---|---|---|
-| `search_candidates(query)` | read | Any (filtered by reach) |
-| `get_candidate(id)` | read | R (blind rules apply) |
-| `list_positions(status?)` | read | Any (filtered by reach) |
-| `get_board(position)` | read | R |
-| `my_interviews()` | read | Self |
-| `dashboard()` | read | Any (filtered by reach) |
-| `add_note(candidate, body)` | write | R |
-| `move_application(application, stage)` | write | M |
-| `create_position(title, …)` | write | Rc |
-| `list_users()` | read | A |
-| `invite_user(email, role)` | write | A |
-| `set_user_role(email, role)` | write | A (409 `role_managed` when the IdP manages it) |
-| `deactivate_user(email)` | write | A (409 `last_admin`) |
-| `grant_member(position, email, role)` | write | A or that Position's `owner` |
-| `revoke_member(position, email)` | write | A or that Position's `owner` (409 `last_owner`) |
-| `integrations_status()` | read | A |
-| `llm_test()` | read | A |
-| `run_work(name, params?)` | write | A |
-
-There are **no** tools for rejecting, emailing candidates or erasing them. Those stay human-in-the-UI acts (principle 3).
+Streamable HTTP with PAT, agent-token or OAuth 2.1 authorization. **The tool, resource and prompt list is in 13 §6 and only there.** Every tool calls the same service functions as the REST API, so permissions, blind rules, action classes and Events are identical. `via` = `mcp:<token prefix>`.

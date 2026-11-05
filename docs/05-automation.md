@@ -50,6 +50,9 @@ Every 2 seconds, plus a nudge after an enqueue in the same process (`LISTEN/NOTI
 | `files.gc` | `0 4 * * *` | §8.4 | yes | |
 | `housekeeping` | `15 4 * * *` | prune `llm_calls` and `work_runs` (90 days), expired `sessions`, `user_tokens` and `uploads`, `rate_limits` older than 2 days, `idempotency_keys` older than 24 h, and `apply_submissions.ip_hash` older than 30 days (set to `\x00`) | yes | |
 | `notify.scorecard_overdue` | `0 * * * *` | §6.6 | yes | |
+| `autopilot.tick` | `*/5 * * * *` | 13 §5 | yes | also enqueued by matching Events |
+| `webhooks.dispatch` | `* * * * *` | 13 §8 | no | also nudged on every enqueue |
+| `agent.morning_triage` | `30 7 * * 1-5` | 13 §7 | yes | off by default |
 | `notify.daily_summary` | `0 * * * *` | §6.6: sends to users whose local time is 08:00 on a weekday and who opted in | yes | |
 
 Work kinds that are only enqueued (not Schedules): `apply.receipt` (§5.3), `notify.assignments` (§6.6), `files.gc` (also scheduled), `candidate.reparse` (after a CV replace).

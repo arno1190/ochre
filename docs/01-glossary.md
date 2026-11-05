@@ -131,6 +131,29 @@ The Organisation-defined scoring dimensions, families and signals that First Rea
 **Digest**
 The weekly email to recruiters that lists the past week's spontaneous applications grouped by Verdict.
 
+## Automation and agents
+
+**Action class**
+The category of an action: **Observe**, **Routine**, **Consequential** or **Irreversible**. It decides whether Autopilot or an agent may perform the action directly, only propose it, or never touch it (13 §1).
+
+**Agent**
+A non-human actor with a name, an accountable owner, scopes and a kill switch. It is either *external* (a connected assistant or script) or *built-in* (a scheduled loop inside Ochre).
+_Avoid_: bot, AI user, service account.
+
+**Proposal**
+An action an agent or Autopilot rule asks a human to approve, with its rationale and grounded evidence. Approving runs the real action under the approver's name.
+_Avoid_: suggestion, recommendation (that word belongs to Scorecards), request.
+
+**Autopilot**
+The deterministic rules a hiring team enables per Job Position. They run Routine actions automatically and file Proposals for Consequential ones.
+_Avoid_: workflow, automation rule.
+
+**Question**
+An extra field of a Job Position's Apply Form. It may be a **knockout**, meaning that some answers fail the Application's knockout check. A failed knockout never rejects by itself.
+
+**Webhook**
+A signed HTTP push of Events to an outside URL.
+
 ## Access
 
 **User**

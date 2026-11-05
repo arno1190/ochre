@@ -11,7 +11,7 @@ You are one iteration of an autonomous loop that builds Ochre from its specifica
    4. tick the criterion in `progress.txt` and commit the code and `progress.txt` together.
 4. Repeat step 3 until every criterion of the milestone is ticked and the roadmap's definition of done holds. Then tick the milestone, add a dated line under `## Log`, and move `## Current milestone:` to the next one.
 5. End the iteration after finishing one milestone, or earlier if the remaining work no longer fits. Before ending, `## Next step:` must hold the exact next action in one line.
-6. When M12 is ticked, set `## Current State: COMPLETED`.
+6. When M20 is ticked, set `## Current State: COMPLETED`. (v1.0 is tagged at the end of M13; the loop then continues with M14–M20.)
 
 Stop and set `## Current State: BLOCKED` only for the cases `AGENTS.md` lists, writing the exact question under `## Blocked on`.
 

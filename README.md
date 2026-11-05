@@ -23,7 +23,9 @@ Start with **[docs/overview.md](docs/overview.md)**: the whole design in one pag
 | 08 | [Design system](docs/08-design-system.md) | The "Primaries on paper" palette, type, components, motion, tokens |
 | 09 | [Architecture](docs/09-architecture.md) | Decisions, stack, code layout, configuration, deployment, security, tests |
 | 10 | [Design history](docs/10-design-history.md) | What was kept from the v0 prototype, what changed and why |
-| 11 | [Roadmap](docs/11-roadmap.md) | 13 milestones with testable acceptance criteria |
+| 11 | [Roadmap](docs/11-roadmap.md) | Milestones with testable acceptance criteria: M0–M13 for v1.0, M14–M20 after |
+| 12 | [Market gap](docs/12-market-gap.md) | Ochre against Greenhouse, Ashby, Workable and others in late 2026: what's missing, what we skip, what wins in the AI age |
+| 13 | [Agent platform](docs/13-agent-platform.md) | Full automation with humans deciding: agents, Proposals, Autopilot, MCP v2 with OAuth, webhooks, AI Act transparency |
 
 Decisions taken while building are recorded in [docs/adr/](docs/adr/).
 

@@ -10,6 +10,7 @@ Every route, who reaches it, what is on it and every state. The interactions are
   - **Positions**;
   - **CV Library** (Rc), with a vermilion dot carrying the Needs Triage count;
   - **My interviews**;
+  - **Proposals** (a count of pending Proposals on positions you manage);
   - a divider;
   - **Settings** (A; members see Profile only);
   - the user menu: profile, theme, sign out.
@@ -46,6 +47,13 @@ Every route, who reaches it, what is on it and every state. The interactions are
 | `/candidates/:id` | R via any Application, or Rc | Same layout without the Application context. The tabs are Overview, Notes, Emails and Timeline, plus an **Applications** list. Used for CV Library people and from search |
 | `/library` | Rc | Tabs **Candidates** and **Needs Triage** (with a count). 02 W11. The candidate drawer is `?candidate=<id>`. Empty: "Your CV Library is empty. Spontaneous applications and people you set aside land here" |
 | `/library?tab=triage` | Rc | Triage table. Empty: `wash-meadow` with "Nothing to triage" |
+| `/proposals` | anyone with M somewhere | The Proposals inbox (13 §4): cards grouped by position, filters by agent, rule and kind, bulk approve, keyboard `a`/`e`/`d`/`j`/`k`. Empty: `wash-meadow` with "Nothing waiting for you" |
+| `/positions/:id/questions` | R (edit: M) | Question editor (13 §2) |
+| `/positions/:id/automation` | R (edit: M) | Stage Action emails switch, Autopilot rules with parameters, dry-run, and the last 20 rule actions |
+| `/settings/agents` | A (owners see their own) | Agents with scopes, positions, budget, tokens, decline rate, last actions, **Disable**, and **Disable all agents** |
+| `/settings/webhooks` | A | Webhooks, event filter, personal-data switch, delivery log, test, redeliver |
+| `/settings/ai/register` | A | The generated AI register, and the switch to publish it at `/careers/ai` |
+| `/careers/{locale}/answers/{token}` | token | The candidate answer page: only the Position's questions, localised; success page |
 | `/interviews` | Any | **My interviews**. Tabs Upcoming, To score, Past. Rows show the time (in the user's timezone), candidate, position, stage, meeting link, a Notes pill and the scorecard status. Empty states per tab |
 | `/settings/profile` | Self | Name, title, avatar, locale, timezone, theme, Scheduling Links (with *Send me a test invitation*), notification preferences, sessions, personal access tokens |
 | `/settings/organisation` | A | Name, logo, website, address, timezone, default locale, careers locales |

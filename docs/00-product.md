@@ -22,7 +22,7 @@ These decide every trade-off. When a choice is unclear, apply them in this order
 
 1. **One box.** A single container image plus Postgres is a complete install. It needs no Redis, no workflow server and no Node at runtime. Every external service (identity provider, mail, model, captcha, calendar, S3) is an optional adapter with a working default or a clean "off" state.
 2. **Your workspace, not ours.** People sign in with what the company already uses. Ochre never becomes the identity provider of record unless the operator chooses local accounts.
-3. **The human decides; the model reads.** The AI parses, matches and sorts. It never rejects, hires or emails anyone on its own. Every AI output that names a fact must quote it from the source document, otherwise it is discarded.
+3. **The human decides; the model reads.** The AI parses, matches and sorts. Software, including agents and Autopilot, may do *routine* work on its own, but every *consequential* decision about a person (reject, hire, a free-text email) is confirmed by a human, usually as one click on a Proposal (13 §1). Every AI output that names a fact must quote it from the source document, otherwise it is discarded.
 4. **Blind before biased.** Interviewers score before they see their peers' scores. Nothing in the product leaks a verdict around that rule: not history, not stats, not the dashboard.
 5. **Everything leaves a trace.** Every mutation writes one event. The timeline, the dashboard and the audit all read the same event log.
 6. **Lean code.** Write fewer concepts, fewer tables and fewer endpoints, but finish each one properly. A feature that cannot be explained in the glossary does not ship.
@@ -43,6 +43,7 @@ These decide every trade-off. When a choice is unclear, apply them in this order
 - **Administration:** a first-run wizard, a CLI, personal access tokens, and an MCP endpoint so that a Claude agent can operate the instance.
 - **GDPR:** retention purge, export and erasure.
 - **⌘K search** and the **recruitment dashboard** ("needs attention", funnel per position).
+- **Agent platform** (13): application questions with knockouts, agent identities, the Proposals inbox, per-position Autopilot, MCP v2 with OAuth, signed webhooks, the AI register and candidate AI notice.
 
 ## Non-goals (v1)
 
@@ -51,7 +52,8 @@ These decide every trade-off. When a choice is unclear, apply them in this order
 - No built-in calendar. Interviews are booked through each person's scheduling link. Calendar sync (Cal.com, Calendly, Microsoft Bookings) is a v1.x adapter.
 - No offer letters, e-signature or onboarding.
 - No multi-tenant SaaS mode. One instance serves one organisation.
-- No AI auto-rejection and no AI "score" shown on the candidate card. The AI verdict lives in the weekly digest and the CV Library only.
+- No AI auto-rejection and no AI "score" shown on the candidate card. The AI verdict lives in the weekly digest and the CV Library only. Agents *propose* rejections, and humans approve them.
+- No AI voice or avatar interviewer, and no outbound web or LinkedIn sourcing (12 §2).
 
 ## Name
 

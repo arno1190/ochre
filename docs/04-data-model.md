@@ -10,6 +10,7 @@ Conventions:
 - Personal data columns are marked 🔒 in the tables below. The erasure routine (05 §GDPR) must reach every one of them.
 - Tables are grouped by topic below, not in creation order. The first migration **creates every table without cross-table foreign keys, then adds all of them with `ALTER TABLE … ADD CONSTRAINT`**. Many references point forward (`settings → users`, `positions → scorecard_templates`, `users → files`, `attachments → messages`, and others).
 - The SQL here was checked on PostgreSQL 16.15.
+- **The tables and `ALTER`s in [13 Agent platform](13-agent-platform.md) §2, §3, §4 and §8 are part of this reference schema**, together with `positions.autopilot` (13 §5). The first migration creates them too.
 
 ## 1. Entity overview
 
@@ -127,7 +128,7 @@ CREATE TABLE access_tokens (          -- personal access tokens and SCIM tokens
   last_used_at timestamptz,
   created_at  timestamptz NOT NULL DEFAULT now(),
   revoked_at  timestamptz,
-  CHECK ((kind = 'pat') = (user_id IS NOT NULL)),
+  CHECK (kind <> 'pat' OR user_id IS NOT NULL),   -- oauth tokens carry user_id ("as you") or agent_id (13 §3, §6)
   CHECK ((kind = 'scim') = (provider IS NOT NULL))
 );
 
@@ -433,8 +434,8 @@ Scoring rules (code):
 CREATE TABLE email_templates (
   id          uuid PRIMARY KEY,
   name        text NOT NULL,
-  kind        text NOT NULL CHECK (kind IN ('screening_invitation','interview_invitation','rejection',
-                                            'application_received','offer','custom')),
+  kind        text NOT NULL CHECK (kind IN ('screening_invitation','interview_invitation','interview_reminder','rejection',
+                                            'application_received','question_request','offer','custom')),
   locale      text NOT NULL,
   subject     text NOT NULL CHECK (length(subject) <= 300),
   body_md     text NOT NULL,              -- sandboxed Jinja + Markdown (05 §6.2)
@@ -590,6 +591,7 @@ Event catalogue. Every mutation in the service layer writes its Event **in the s
 | `user.sessions_revoked` | subject user | `{count, reason: 'logout_all'\|'deactivated'}` |
 | `retention.purged` | none | `{count, run_id}` (one per run; each Candidate also gets `candidate.erased`) |
 | `secret.changed` | none | `{name, fingerprint}` |
+| `proposal.*`, `agent.*`, `webhook.*`, `application.answers_received`, `application.knockout_evaluated` | see 13 §8 | |
 | `intake.item_resolved` | cand? | `{intake_item_id, resolution: 'assigned'\|'to_library'\|'dismissed'\|'retried_ok'}` |
 
 `candidates.last_activity_at` is bumped by every Event that carries a `candidate_id`, except `candidate.exported` and `candidate.possible_duplicate`.

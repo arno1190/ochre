@@ -17,7 +17,15 @@
 - [ ] M9 Dashboard and notifications
 - [ ] M10 First Read and digest
 - [ ] M11 GDPR, SCIM, MCP, CLI, operator skill
-- [ ] M12 Hardening and 1.0
+- [ ] M12 Agent platform
+- [ ] M13 Hardening and 1.0
+- [ ] M14 Scheduling with free/busy
+- [ ] M15 Transcript to scorecard draft
+- [ ] M16 Job kickoff
+- [ ] M17 Reports and reporting views
+- [ ] M18 Rediscovery with pgvector
+- [ ] M19 Offers and e-signature
+- [ ] M20 Candidate status page, NPS, distribution, Slack/Teams
 
 ## Acceptance criteria (current milestone, copied from the roadmap when it starts)
 

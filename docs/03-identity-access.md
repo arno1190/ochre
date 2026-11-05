@@ -197,10 +197,12 @@ These apply when `blind=true`: Job Role `interviewer` or `viewer`, **or** reach 
 
 ## 5. Agent-managed IAM (for operators using Claude or another agent)
 
+This section is about an *operator* administering the instance with an admin PAT. Agents that do recruiting work have their own identities, scopes and Proposals (13 §3–§6). Admin tools are never available to them.
+
 An operator can let an agent manage access without giving it database access:
 
 1. The operator creates a PAT on an `admin` account, possibly a dedicated *Ops Agent* local user with role `admin`.
-2. The agent uses the CLI (`docker exec ochre ochre users …`), the REST API, or the MCP endpoint. The MCP tool list and its permissions are in 06 §MCP, and only there.
+2. The agent uses the CLI (`docker exec ochre ochre users …`), the REST API, or the MCP endpoint. The MCP tool list and its permissions are in 13 §6, and only there. Admin tools there require an admin PAT.
 3. Every agent action is recorded as an Event with the PAT's User as actor and `via: "pat:<prefix>"` or `"mcp:<prefix>"`.
 4. The repository ships a Claude Code skill, `skills/ochre-operator/SKILL.md`, specified in 09. It walks an agent through installing Ochre, creating the Entra or Google app, and wiring each profile. It contains no secrets and tells the agent to put credentials in the host's secret store, never in the repo.
 

@@ -145,6 +145,15 @@ One function answers every question of this kind, and a test runs every route ag
 
 → [05 §2–3](05-automation.md)
 
+## Agents: full automation, human decisions
+
+Ochre is built to be driven by agents: your own assistant (Claude, ChatGPT, Copilot) through MCP with OAuth, workflow tools through signed webhooks, or Ochre's built-in morning-triage agent. Every action has a class:
+- **Routine** work (notes, tags, template emails, invitations, reminders, moving between stages) can run on its own, under per-position **Autopilot** rules.
+- **Consequential** decisions (reject, hire, a free-text email) are filed as **Proposals**, each with grounded evidence. A human approves them in one click, singly or in bulk.
+- **Irreversible** acts have no agent tool at all.
+
+Each agent has an owner, scopes, a budget and a kill switch. An AI register and a candidate notice cover the EU AI Act transparency duties. → [13 Agent platform](13-agent-platform.md) · [12 Market gap](12-market-gap.md)
+
 ## What it looks like
 
 "Primaries on paper": warm paper and ink, three brand primaries (ultramarine for action, vermilion for attention, cadmium for celebration), and one pigment per stage kind so colour *means* the step. The type pairing is Instrument Sans with Instrument Serif. Gradients appear only on the careers hero, the login page, empty states and the hire moment. → [08 Design system](08-design-system.md) · [07 Screens](07-screens.md)
