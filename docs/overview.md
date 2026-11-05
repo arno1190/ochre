@@ -28,8 +28,8 @@ flowchart LR
   C --> I
   M --> I
   H --> P
-  AI[AI first reader] -.reads, never decides.-> I
-  AI -.weekly digest.-> L
+  AI[AI first reader] -.->|reads, never decides| I
+  AI -.->|weekly digest| L
 ```
 
 ## Six ideas carry the design
@@ -100,7 +100,7 @@ sequenceDiagram
   participant AI as LLM gateway
   W->>MB: list messages since checkpoint
   W->>DB: copy each new message + attachments, intake item = pending (commit)
-  W->>MB: mark read (cosmetic; idempotency lives in the DB)
+  W->>MB: mark read (cosmetic: idempotency lives in the DB)
   W->>W: pick the CV among attachments, extract text
   W->>AI: cv_parse (grounded) and job_match (subject + body only, never the CV)
   alt names an open position
@@ -108,7 +108,7 @@ sequenceDiagram
   else names none
     W->>DB: candidate in the CV Library (spontaneous)
   else ambiguous, unreadable, not a CV
-    W->>DB: Needs Triage, no candidate yet; a human decides
+    W->>DB: Needs Triage, no candidate yet, a human decides
   end
 ```
 
